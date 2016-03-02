@@ -1,5 +1,9 @@
 FROM jetty:9.3.7-jre8
 
+ENV MYSQL_USER xwiki
+ENV MYSQL_PASSWORD dbpass
+ENV MYSQL_HOST db
+
 RUN curl http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-8.0-milestone-2.war --output ${JETTY_BASE}/xwiki8.war
 RUN curl http://download.forge.ow2.org/xwiki/xwiki-enterprise-ui-mainwiki-all-8.0-milestone-2.xar --output ${JETTY_BASE}/xwiki8.xar
 RUN unzip ${JETTY_BASE}/xwiki8.war -d ${JETTY_BASE}/webapps/ROOT/
