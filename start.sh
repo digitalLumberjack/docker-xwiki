@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$WIKI_CONTEXT" == "xwiki" ];then 
+if [ "$WIKI_CONTEXT" != "" ];then 
   if [ ! -f "${JETTY_BASE}/webapps/${WIKI_CONTEXT}" ];then
     mv ${JETTY_BASE}/webapps/ROOT ${JETTY_BASE}/webapps/${WIKI_CONTEXT}
     #curl http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-8.0-milestone-2.war --output webapps/xwiki8.war
