@@ -4,6 +4,11 @@ ENV MYSQL_USER xwiki
 ENV MYSQL_PASSWORD dbpass
 ENV MYSQL_HOST db
 ENV WIKI_CONTEXT xwiki
+ENV ADMIN_EMAIL xwiki@host.com
+ENV SMTP_HOST mail.host.com
+ENV SMTP_PROTOCOL tls
+ENV SMTP_LOGIN xwiki
+ENV SMTP_PASSWORD xwiki
 
 RUN curl http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-8.0-milestone-2.war --output ${JETTY_BASE}/xwiki8.war
 RUN curl http://download.forge.ow2.org/xwiki/xwiki-enterprise-ui-mainwiki-all-8.0-milestone-2.xar --output ${JETTY_BASE}/xwiki8.xar
