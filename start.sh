@@ -3,10 +3,42 @@
 if [ "$WIKI_CONTEXT" != "" ];then
   if [ ! -f "${JETTY_BASE}/webapps/${WIKI_CONTEXT}" ];then
     mv ${JETTY_BASE}/webapps/ROOT ${JETTY_BASE}/webapps/${WIKI_CONTEXT}
-    #curl http://download.forge.ow2.org/xwiki/xwiki-enterprise-web-8.0-milestone-2.war --output webapps/xwiki8.war
-    sed -i "s|MYSQL_HOST|${MYSQL_HOST}|" ${JETTY_BASE}/webapps/${WIKI_CONTEXT}/WEB-INF/hibernate.cfg.xml
-    sed -i "s|MYSQL_USER|${MYSQL_USER}|" ${JETTY_BASE}/webapps/${WIKI_CONTEXT}/WEB-INF/hibernate.cfg.xml
-    sed -i "s|MYSQL_PASSWORD|${MYSQL_PASSWORD}|" ${JETTY_BASE}/webapps/${WIKI_CONTEXT}/WEB-INF/hibernate.cfg.xml
+
+    DB_OPTIONAL=''
+    DB_DRIVER_CLASS=''
+    DB_DIALECT=''
+
+    case ${DB_TYPE} in
+      'hsqldb')
+        DB_DIALECT='org.hibernate.dialect.HSQLDialect'
+        DB_DRIVER_CLASS='org.hsqldb.jdbcDriver'
+        DB_HOST='jdbc:hsqldb:file:${environment.permanentDirectory}/database/xwiki;shutdown=true'
+      ;;
+      'mysql')
+        DB_DIALECT='org.hibernate.dialect.MySQLDialect'
+        DB_DRIVER_CLASS='com.mysql.jdbc.Driver'
+        DB_HOST="jdbc:mysql://${DB_HOST}/xwiki?useServerPrepStmts=false\&amp;sessionVariables=sql_mode=''"
+      ;;
+      'oracle')
+        DB_DIALECT='org.hibernate.dialect.Oracle10gDialect'
+        DB_DRIVER_CLASS='oracle.jdbc.driver.OracleDriver'
+        DB_HOST="jdbc:oracle:thin:${DB_HOST}:1521:xwiki"
+        DB_OPTIONAL='<property name="hibernate.connection.SetBigStringTryClob">true</property><property name="hibernate.jdbc.batch_size">0</property>'
+      ;;
+      'postgresql')
+        DB_DIALECT='org.hibernate.dialect.PostgreSQLDialect'
+        DB_DRIVER_CLASS='org.postgresql.Driver'
+        DB_HOST="jdbc:postgresql://${DB_HOST}/xwiki"
+      ;;
+    esac
+
+    sed -i "s|DB_HOST|${DB_HOST}|" ${JETTY_BASE}/webapps/${WIKI_CONTEXT}/WEB-INF/hibernate.cfg.xml
+    sed -i "s|DB_USER|${DB_USER}|" ${JETTY_BASE}/webapps/${WIKI_CONTEXT}/WEB-INF/hibernate.cfg.xml
+    sed -i "s|DB_PASSWORD|${DB_PASSWORD}|" ${JETTY_BASE}/webapps/${WIKI_CONTEXT}/WEB-INF/hibernate.cfg.xml
+    sed -i "s|DB_DRIVER_CLASS|${DB_DRIVER_CLASS}|" ${JETTY_BASE}/webapps/${WIKI_CONTEXT}/WEB-INF/hibernate.cfg.xml
+    sed -i "s|DB_DIALECT|${DB_DIALECT}|" ${JETTY_BASE}/webapps/${WIKI_CONTEXT}/WEB-INF/hibernate.cfg.xml
+    sed -i "s|DB_OPTIONAL|${DB_OPTIONAL}|" ${JETTY_BASE}/webapps/${WIKI_CONTEXT}/WEB-INF/hibernate.cfg.xml
+
     if [[ "${SMTP_HOST}" != "" ]]; then
       sed -i "s|.*mail\.sender\.host = .*|mail.sender.host = ${SMTP_HOST}|" ${JETTY_BASE}/webapps/${WIKI_CONTEXT}/WEB-INF/xwiki.properties
     fi

@@ -14,11 +14,12 @@
     <property name="connection.provider_class">com.xpn.xwiki.store.DBCPConnectionProvider</property>
 
 
-    <property name="connection.url">jdbc:mysql://MYSQL_HOST/xwiki</property>
-    <property name="connection.username">MYSQL_USER</property>
-    <property name="connection.password">MYSQL_PASSWORD</property>
-    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+    <property name="connection.url">DB_HOST</property>
+    <property name="connection.username">DB_USER</property>
+    <property name="connection.password">DB_PASSWORD</property>
+    <property name="connection.driver_class">DB_DRIVER_CLASS</property>
+    <property name="dialect">DB_DIALECT</property>
+    DB_OPTIONAL
     <property name="dbcp.poolPreparedStatements">true</property>
     <property name="dbcp.maxOpenPreparedStatements">20</property>
     <mapping resource="xwiki.hbm.xml"/>
@@ -28,4 +29,3 @@
     <mapping resource="mailsender.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
-

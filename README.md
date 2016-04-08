@@ -3,9 +3,10 @@
 Create a xwiki instance with jetty webserver
 
 Use the following ENV when running :
-- MYSQL_USER : the mysql user
-- MYSQL_PASSWORD : the mysql password
-- MYSQL_HOST : the hostname of the linked database container
+- DB_TYPE : the type of database. Supported databases : HSQLDB / Oracle / MySQL / PostgreSQL. HSQLDB is stored in the folder defined by the XWiki environment.permanentDirectory variable.
+- DB_USER : the database user (not needed for HSQLDB)
+- DB_PASSWORD : the database password (not needed for HSQLDB)
+- DB_HOST : the hostname of the linked database container (not needed for hsqldb)
 - WIKI_CONTEXT : the context of the website (ROOT for no context)
 - ADMIN_EMAIL : the email of the administrator
 - SMTP_HOST : smtp host to send email from
